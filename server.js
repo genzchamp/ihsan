@@ -44,7 +44,7 @@ async function getAccessToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      scope: "content.quran.read"
+      scope: "content.quran.read content.translations.read"
     }),
     signal: AbortSignal.timeout(20000)
   });
@@ -61,22 +61,38 @@ async function getAccessToken() {
   return cachedToken;
 }
 
-async function getChapters() {
+async function qfGet(path, label) {
   const token = await getAccessToken();
-  const response = await fetch(config.api + "/content/api/v4/chapters", {
+  const response = await fetch(config.api + "/content/api/v4" + path, {
     headers: {
       "x-auth-token": token,
       "x-client-id": CLIENT_ID
     },
-    signal: AbortSignal.timeout(20000)
+    signal: AbortSignal.timeout(25000)
   });
 
   if (!response.ok) {
     const details = await response.text();
-    console.error("Quran Foundation chapters request failed:", response.status, details.slice(0, 500));
-    throw new Error("Quran Foundation content request failed (" + response.status + ")");
+    console.error("Quran Foundation " + label + " request failed:", response.status, details.slice(0, 500));
+    throw new Error("Quran Foundation " + label + " request failed (" + response.status + ")");
   }
   return response.json();
+}
+
+async function getChapters() {
+  return qfGet("/chapters", "chapters");
+}
+
+async function getChapterVerses(chapter, page) {
+  const params = new URLSearchParams({
+    language: "en",
+    words: "false",
+    translations: "131",
+    fields: "text_uthmani",
+    per_page: "50",
+    page: String(page)
+  });
+  return qfGet("/verses/by_chapter/" + chapter + "?" + params.toString(), "verses");
 }
 
 const server = http.createServer(async (req, res) => {
@@ -112,7 +128,23 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  return send(res, 404, { error: "Route not found" });
+  const verseMatch = /^\/api\/chapters\/(\d+)\/verses$/.exec(path);
+  if (verseMatch) {
+    const chapter = Number(verseMatch[1]);
+    const page = Number(new URL(req.url, "http://localhost").searchParams.get("page") || 1);
+    if (!Number.isInteger(chapter) || chapter < 1 || chapter > 114 ||
+        !Number.isInteger(page) || page < 1 || page > 100) {
+      return send(res, 400, { error: "Invalid chapter or page" });
+    }
+    try {
+      const data = await getChapterVerses(chapter, page);
+      return send(res, 200, data);
+    } catch (error) {
+      return send(res, 502, { error: error.message || "Unable to retrieve verses" });
+    }
+  }
+
+  return send(res, 404, { error: "Route not found", path });
 });
 
 server.listen(PORT, "0.0.0.0", () => {
