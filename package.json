@@ -1,0 +1,13 @@
+{
+  "name": "ihsan-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Private server-side bridge to Quran Foundation Content APIs for Ihsan",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
