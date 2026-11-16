@@ -257,6 +257,15 @@ const view = $("#view");
 let tab = "today";
 function chip(){ $("#streakChip").textContent = "🔥 " + S.streak + (S.streak === 1 ? " day" : " days"); }
 
+function referenceMarkup(ref){
+  const match = /^Quran\s+(\d{1,3}):(\d{1,3})/.exec(ref);
+  if (!match) return ref;
+  const surah = Number(match[1]), ayah = Number(match[2]);
+  if (surah < 1 || surah > 114 || ayah < 1) return ref;
+  const url = `https://quran.com/${surah}/${ayah}`;
+  return `<a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Open Qur’an ${surah}, verse ${ayah} on Quran.com">${ref} · Read in Qur’an</a>`;
+}
+
 function nameBlock(i){
   const [ar,tr,en,lesson,ref] = N[i], p = pairOf(i);
   return `
