@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Asma – Know Allah by His Names</title>
-<meta name="description" content="Learn the 99 Names of Allah with meanings, a daily Name, and quizzes.">
+<title>Ihsan — Know Allah by His Names</title>
+<meta name="description" content="A thoughtful companion for learning Allah’s beautiful Names, with Qur’an references you can open and read in context.">
 <meta name="theme-color" content="#0D1A2B">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -36,7 +36,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .wrap{max-width:560px;margin:0 auto;padding:20px 20px calc(96px + env(safe-area-inset-bottom))}
 header.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
 .brand{font-weight:700;font-size:20px;letter-spacing:.2px}
-.brand small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.brand small{display:block;font-family:var(--ar);font-weight:700;font-size:23px;line-height:1.1;color:var(--gold);margin-top:2px;letter-spacing:0;direction:rtl;text-align:left}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:500}
 h2{font-size:15px;font-weight:600;color:var(--muted);margin-bottom:10px}
 
@@ -46,7 +46,7 @@ h2{font-size:15px;font-weight:600;color:var(--muted);margin-bottom:10px}
 .hero .tr{font-size:28px;font-weight:700;margin-top:6px}
 .hero .en{font-size:18px;color:var(--muted);margin-top:2px}
 .lesson{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 18px;margin:22px 0 14px;font-size:17px}
-.ref{font-size:14px;color:var(--muted);margin-top:10px}
+.ref{font-size:14px;color:var(--muted);margin-top:10px}\n.ref a,.quran-ref{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(92,196,181,.45);text-underline-offset:3px;font-weight:600}\n.ref a:focus-visible,.quran-ref:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
 .pair{font-size:14px;color:var(--muted);margin-top:8px}
 .row{display:flex;gap:10px;flex-wrap:wrap}
 .btn{border:0;border-radius:14px;padding:13px 18px;font-weight:600;background:var(--accent);color:var(--on-accent);min-height:48px}
@@ -105,7 +105,7 @@ nav.tabs button[aria-selected=true]{color:var(--accent);background:var(--surface
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="brand">Asma<small>Know Allah by His Names</small></div>
+    <div class="brand">Ihsan<small lang="ar" aria-label="Allah">الله</small></div>
     <div class="chip" id="streakChip" aria-label="Daily streak"></div>
   </header>
   <main id="view"></main>
@@ -266,7 +266,7 @@ function nameBlock(i){
       <div class="en">${en}</div>
     </section>
     <div class="lesson">${lesson}
-      <div class="ref">${ref}</div>
+      <div class="ref">${referenceMarkup(ref)}</div>
       ${p!==null ? `<div class="pair">Scholars often teach to mention this Name together with its pair, ${N[p][1]}.</div>` : ""}
     </div>
     <div class="row">
@@ -284,7 +284,7 @@ function renderToday(){
       <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="${n}"><i style="width:${pct}%"></i></div>
       <span class="muted" style="font-size:14px">Come back tomorrow for a new Name.</span>
     </div>
-    <p class="dua">Allah says to call upon Him by His beautiful Names (Quran 7:180).</p>`;
+    <p class="dua">Allah says to call upon Him by His beautiful Names (<a class="quran-ref" href="https://quran.com/7/180" target="_blank" rel="noopener noreferrer">Qur’an 7:180 · Read in Qur’an</a>).</p>`;
 }
 
 let query = "";
