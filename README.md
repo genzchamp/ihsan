@@ -1,6 +1,6 @@
-# Asma – Know Allah by His Names
+# Ihsan
 
-Installable web app (PWA): Name of the Day, searchable library of the 99 Names, quiz with streaks.
+Installable web app (PWA): a daily Name, searchable library of Allah’s beautiful Names, quiz with streaks, and clickable Qur’an references that open the cited ayah on Quran.com.
 No build step. Plain HTML/CSS/JS.
 
 ## Run locally
