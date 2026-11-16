@@ -125,7 +125,7 @@ nav.tabs button[aria-selected=true]{color:var(--accent);background:var(--surface
 
 <script>
 /* ---------- Data: [arabic, transliteration, meaning, lesson, reference] ---------- */
-const H = "In the hadith list of the 99 Names (Tirmidhi)";
+const H = "Jami at-Tirmidhi 3507 — appended enumeration; its grading is disputed";
 const N = [
 ["الرحمن","Ar-Rahman","The Most Gracious","His mercy covers everyone in this life, believer or not. Start every day from that.","Quran 1:3"],
 ["الرحيم","Ar-Raheem","The Most Merciful","His special mercy for those who turn to Him. You never run out of second chances.","Quran 1:3"],
@@ -260,6 +260,9 @@ let tab = "today";
 function chip(){ $("#streakChip").textContent = "🔥 " + S.streak + (S.streak === 1 ? " day" : " days"); }
 
 function referenceMarkup(ref){
+  if (ref.startsWith("Jami at-Tirmidhi 3507")) {
+    return `<a href="https://sunnah.com/tirmidhi/48/138" target="_blank" rel="noopener noreferrer" aria-label="Open Jami at-Tirmidhi hadith 3507">${ref} · Read hadith</a>`;
+  }
   const match = /^Quran\s+(\d{1,3}):(\d{1,3})/.exec(ref);
   if (!match) return ref;
   const surah = Number(match[1]), ayah = Number(match[2]);
